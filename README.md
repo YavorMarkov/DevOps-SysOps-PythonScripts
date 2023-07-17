@@ -108,6 +108,13 @@ if __name__ == "__main__":
     resources = get_system_resources()
     for key, value in resources.items():
         print(f"{key}: {value}%")
+```
+
+This part of the script is the main execution block. The `if __name__ == "__main__":` check is a common Python idiom. In Python, `__name__` is a built-in variable which evaluates to the name of the current module. When the script is run as a standalone file, `__name__` equals `"__main__"`. This check makes sure the following code block is executed only when the script is run directly, and not when it's imported as a module in another script.
+
+In this block, the script calls `get_system_resources()`, which returns a dictionary of system resources usage. This dictionary is iterated over, and each key-value pair (representing a resource and its usage) is printed to the standard output. The output would provide a user-readable report on the current usage of CPU, memory, and disk resources.
+
+In summary, this script is a simple yet powerful system resource monitor that leverages the psutil library's capabilities to monitor CPU, memory, and disk usage. It's written to be robust, handling situations where psutil may not be installed, and handling any exceptions that might be thrown while trying to gather system resource usage data.
 
 
 
