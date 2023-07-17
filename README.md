@@ -101,6 +101,14 @@ The `get_system_resources()` function collects data about system resource usage 
 
 Each of these sections is wrapped in a `try`/`except` block to handle any exceptions that might be thrown while attempting to retrieve these details. If any operation fails, the script prints an error message specific to that operation and exits with a status code of 1.
 
+## Part 3: Main Execution
+
+```python
+if __name__ == "__main__":
+    resources = get_system_resources()
+    for key, value in resources.items():
+        print(f"{key}: {value}%")
+
 
 
 ## Contributing
