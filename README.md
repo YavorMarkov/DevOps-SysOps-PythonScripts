@@ -40,6 +40,69 @@ Replace `<value>` with the actual usage percentage for each resource.
 
 If any errors occur during the retrieval of resource information, the script will display an error message and exit with a non-zero status.
 
+# Detailed Analysis of the Python System Resources Monitor Script
+
+This script is written in Python, a high-level interpreted programming language known for its readability and ease of use. This script's purpose is to monitor various system resources, including CPU usage, memory usage, and disk usage. It utilizes the `psutil` (process and system utilities) library to access and retrieve this information.
+
+## Part 1: Importing Modules
+
+```python
+import os
+
+try:
+    import psutil
+except ImportError as e:
+    print(f"Import Error: {e}")
+    raise SystemExit(1)
+```
+This part of the script imports the necessary Python modules:
+
+- **os**: This is a built-in Python module that interacts with the operating system (OS). The OS module provides a way to use system-dependent functionality such as reading or writing to the environment, manipulating paths, managing files, and more.
+
+- **psutil**: This is a third-party Python library that allows you to retrieve information on running processes and system utilization, such as CPU, memory, disks, network, and sensors. The library is an abstraction layer over platform-specific or lower-level OS APIs and is thus compatible across different operating systems.
+
+The `try`/`except` block is used to handle situations where the psutil library may not be installed in the system's Python environment. If this library isn't found (which raises an `ImportError`), the script prints the error message and then terminates itself by raising a `SystemExit` exception with a status code of 1, indicating an error or abnormal program termination.
+
+## Part 2: The get_system_resources() Function
+
+```python
+def get_system_resources():
+    resource_dict = {}
+
+    try:
+        resource_dict["CPU_usage"] = psutil.cpu_percent(interval=1)
+    except Exception as e:
+        print(f"CPU usage error: {e}")
+        raise SystemExit(1)
+
+    try:
+        mem_info = psutil.virtual_memory()
+        resource_dict["Memory_usage"] = mem_info.percent
+    except Exception as e:
+        print(f"Memory usage error: {e}")
+        raise SystemExit(1)
+
+    try:
+        disk_info = psutil.disk_usage('/')
+        resource_dict["Disk_usage"] = disk_info.percent
+    except Exception as e:
+        print(f"Disk usage error: {e}")
+        raise SystemExit(1)
+
+    return resource_dict
+```
+The `get_system_resources()` function collects data about system resource usage and returns this data as a dictionary. It specifically collects data about:
+
+- **CPU Usage**: `psutil.cpu_percent(interval=1)` is used to measure the CPU usage. This function returns a floating point number representing the current system-wide CPU utilization as a percentage. By specifying `interval=1`, we ask the function to calculate the CPU usage over the past one second. This is a blocking call for the duration of the interval.
+
+- **Memory Usage**: `psutil.virtual_memory()` is used to get memory usage details. This function returns an object with various properties, including total memory, available memory, used memory, and memory percentage used, amongst others. Here, we're specifically interested in `percent`, which represents the memory usage percentage.
+
+- **Disk Usage**: `psutil.disk_usage('/')` is used to get disk usage. This function takes a path as an argument and returns an object with total, used, and free space, along with the percentage of used disk space. The root path ('/') is used here to represent the entire disk.
+
+Each of these sections is wrapped in a `try`/`except` block to handle any exceptions that might be thrown while attempting to retrieve these details. If any operation fails, the script prints an error message specific to that operation and exits with a status code of 1.
+
+
+
 ## Contributing
 
 Contributions to this project are welcome. If you encounter any issues or have suggestions for improvements, please feel free to submit a pull request or open an issue on the GitHub repository.
@@ -51,3 +114,5 @@ This script is licensed under the MIT License.
 ## Disclaimer
 
 Please note that this script is provided as-is and without any warranty. Use it at your own risk.
+
+
