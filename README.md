@@ -90,6 +90,6 @@ organizeDirectory()
 Finally, this line calls the organizeDirectory function to start the process.
 
 
-#####In summary, this script is used to sort files in the current directory into their respective subdirectories based on their file types.
+##### In summary, this script is used to sort files in the current directory into their respective subdirectories based on their file types.
 
 
